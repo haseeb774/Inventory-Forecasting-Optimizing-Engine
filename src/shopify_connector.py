@@ -173,17 +173,7 @@ class ShopifyConnector:
 if __name__ == "__main__":
     connector = ShopifyConnector()
 
-    print("Store URL:", connector.store_url)
-    print("Token exists:", bool(connector.token))
+    products_df = connector.get_products()
 
-    response = requests.get(
-        f"{connector.base_url}/orders.json",
-        headers=connector.headers,
-        params={
-            "status": "any",
-            "limit": 5
-        }
-    )
-
-    print("Status code:", response.status_code)
-    print(response.text[:1000])
+    print(products_df.head())
+    print(products_df.shape)
