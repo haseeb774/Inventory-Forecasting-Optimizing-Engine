@@ -2,17 +2,17 @@ name: Nightly Model Retrain
 
 on:
   schedule:
-    # Runs every night at 2:00 AM UTC
-    # Adjust if you want a different time — cron is in UTC
     - cron: '0 2 * * *'
   workflow_dispatch:
-    # Allows manual trigger from the GitHub Actions tab — useful for testing
-    # without waiting for the schedule, and for demoing to a client live
+
+permissions:
+  contents: write    # ← add this
 
 jobs:
   retrain:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    
 
     steps:
       - name: Checkout repository
