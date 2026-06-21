@@ -1,0 +1,72 @@
+name: Nightly Model Retrain
+
+on:
+  schedule:
+    # Runs every night at 2:00 AM UTC
+    # Adjust if you want a different time — cron is in UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+    # Allows manual trigger from the GitHub Actions tab — useful for testing
+    # without waiting for the schedule, and for demoing to a client live
+
+jobs:
+  retrain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # Needed so we can commit changes back at the end
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run data generation
+        run: python -m src.synthetic_data_generator
+
+      - name: Run data pipeline
+        run: python -m src.transform
+
+      - name: Retrain model
+        run: python -m src.model_train
+
+      - name: Regenerate reorder alerts
+        run: python -m src.forecasting_feature
+
+      - name: Check for changes
+        id: git_check
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --staged --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit and push updated model and alerts
+        if: steps.git_check.outputs.changed == 'true'
+        run: |
+          git commit -m "Automated nightly retrain — $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push
+
+      - name: Log run summary
+        run: |
+          echo "### Nightly retrain summary" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Run time (UTC): $(date -u '+%Y-%m-%d %H:%M:%S')" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Changes committed: ${{ steps.git_check.outputs.changed }}" >> "$GITHUB_STEP_SUMMARY"
+          if [ -f data/outputs/reorder_alerts.csv ]; then
+            echo "- Reorder alerts rows: $(($(wc -l < data/outputs/reorder_alerts.csv) - 1))" >> "$GITHUB_STEP_SUMMARY"
+          fi
