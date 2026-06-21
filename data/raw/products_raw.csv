@@ -1,27 +1,7 @@
 product_id,product_title,product_type,tags,variant_id,sku,current_stock,price
-9519922938088,Gift Card,giftcard,,48630832890088,VARIANT_48630832890088,0,10.0
-9519922938088,Gift Card,giftcard,,48630832922856,VARIANT_48630832922856,0,25.0
-9519922938088,Gift Card,giftcard,,48630832955624,VARIANT_48630832955624,0,50.0
-9519922938088,Gift Card,giftcard,,48630832988392,VARIANT_48630832988392,0,100.0
-9519923233000,Selling Plans Ski Wax,accessories,"Accessory, Sport, Winter",48630833053928,VARIANT_48630833053928,10,24.95
-9519923233000,Selling Plans Ski Wax,accessories,"Accessory, Sport, Winter",48630833086696,VARIANT_48630833086696,10,49.95
-9519923233000,Selling Plans Ski Wax,accessories,"Accessory, Sport, Winter",48630833119464,VARIANT_48630833119464,10,9.95
-9519923396840,The 3p Fulfilled Snowboard,snowboard,"Accessory, Sport, Winter",48630833709288,sku-hosted-1,20,2629.95
-9519923134696,The Archived Snowboard,snowboard,"Archived, Premium, Snow, Snowboard, Sport, Winter",48630832857320,VARIANT_48630832857320,50,629.95
-9519923036392,The Collection Snowboard: Hydrogen,snowboard,"Accessory, Sport, Winter",48630832824552,VARIANT_48630832824552,50,600.0
-9519923527912,The Collection Snowboard: Liquid,snowboard,"Accessory, Sport, Winter",48630833873128,VARIANT_48630833873128,50,749.95
-9519923462376,The Collection Snowboard: Oxygen,snowboard,"Accessory, Sport, Winter",48630833742056,VARIANT_48630833742056,50,1025.0
-9519923069160,The Compare at Price Snowboard,snowboard,"Accessory, Sport, Winter",48630833185000,VARIANT_48630833185000,10,785.95
-9519923298536,The Complete Snowboard,snowboard,"Premium, Snow, Snowboard, Sport, Winter",48630833217768,VARIANT_48630833217768,10,699.95
-9519923298536,The Complete Snowboard,snowboard,"Premium, Snow, Snowboard, Sport, Winter",48630833250536,VARIANT_48630833250536,10,699.95
-9519923298536,The Complete Snowboard,snowboard,"Premium, Snow, Snowboard, Sport, Winter",48630833283304,VARIANT_48630833283304,10,699.95
-9519923298536,The Complete Snowboard,snowboard,"Premium, Snow, Snowboard, Sport, Winter",48630833316072,VARIANT_48630833316072,10,699.95
-9519923298536,The Complete Snowboard,snowboard,"Premium, Snow, Snowboard, Sport, Winter",48630833348840,VARIANT_48630833348840,10,699.95
-9519923101928,The Draft Snowboard,snowboard,,48630833447144,VARIANT_48630833447144,20,2629.95
-9519923265768,The Hidden Snowboard,snowboard,"Premium, Snow, Snowboard, Sport, Winter",48630833479912,VARIANT_48630833479912,50,749.95
-9519922970856,The Inventory Not Tracked Snowboard,snowboard,"Accessory, Sport, Winter",48630833021160,sku-untracked-1,0,949.95
-9519923200232,The Minimal Snowboard,,,48630833152232,VARIANT_48630833152232,50,885.95
-9519923331304,The Multi-location Snowboard,snowboard,"Premium, Snow, Snowboard, Sport, Winter",48630833676520,VARIANT_48630833676520,100,729.95
-9519923429608,The Multi-managed Snowboard,snowboard,"Premium, Snow, Snowboard, Sport, Winter",48630833774824,sku-managed-1,100,629.95
-9519923167464,The Out of Stock Snowboard,snowboard,"Accessory, Sport, Winter",48630833414376,VARIANT_48630833414376,0,885.95
-9519923003624,The Videographer Snowboard,snowboard,,48630833381608,VARIANT_48630833381608,50,885.95
+14520,Linen Duvet Set,Bedding,eid_high,51343,LDS-001,148,89.99
+59199,Ceramic Vase Bundle,Decor,holiday_high,45105,CVB-002,139,45.0
+7506,Scented Candle Pack,Fragrance,holiday_high,15434,SCP-003,39,29.99
+1033,Wall Art Boho,Decor,eid_high,55474,WAB-004,77,65.0
+57097,Table Runner Set,Kitchen,flat,11583,TRS-005,190,22.5
+82608,Throw Pillow Cover,Bedding,eid_high,37045,TPC-006,98,18.99
