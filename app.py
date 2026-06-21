@@ -114,7 +114,7 @@ def style_status(val):
     }
     return colors.get(val, "")
 
-styled = display_df.style.applymap(style_status, subset=["status"])
+styled = display_df.style.map(style_status, subset=["status"])
 st.dataframe(
     styled,
     use_container_width=True,

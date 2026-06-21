@@ -1,6 +1,6 @@
 # Core
 numpy
-pandas
+pandas==2.1.0
 
 
 # Visualization & EDA
