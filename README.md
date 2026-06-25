@@ -1,3 +1,4 @@
+![Tests](https://github.com/haseeb774/Inventory-Forecasting-Optimizing-Engine/actions/workflows/tests.yml/badge.svg)
 # NestHaven Inventory Intelligence
 
 **Smart inventory & demand forecasting system for e-commerce — built to catch stockouts before they happen and free up cash trapped in slow-moving stock.**
