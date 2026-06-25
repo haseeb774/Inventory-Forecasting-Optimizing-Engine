@@ -30,7 +30,6 @@ A forecasting and alert system that watches every SKU continuously and tells the
 
 ## Architecture
 
-[#architecture](#architecture)
 
 ```mermaid
 flowchart LR
@@ -80,7 +79,6 @@ A few decisions worth calling out, because they're the difference between a mode
 
 ## Model performance vs. baseline
 
-[#model-performance-vs-baseline](#model-performance-vs-baseline)
 
 It's easy to claim a model "works" without showing what it's being compared against. Here, the XGBoost model is benchmarked against the simplest reasonable baseline — predicting that demand on any given day equals demand exactly 7 days prior (captures weekly seasonality with zero modeling effort):
 
@@ -99,20 +97,23 @@ It's easy to claim a model "works" without showing what it's being compared agai
 
 ```
 ├── src/
+│   ├── extract.py                    # data extraction
+│   ├── transform.py                  # cleaning, aggregation, feature engineering
 │   ├── synthetic_data_generator.py   # seasonally-realistic demand simulation
-│   ├── data_pipeline.py              # cleaning, aggregation, feature engineering
 │   ├── model_train.py                # XGBoost training, evaluation, forecasting
 │   └── forecasting_feature.py        # reorder point / safety stock / alert engine
-├── app.py   # Streamlit dashboard
+├── tests/
+│   └── test_reorder_logic.py         # unit tests for reorder math
+├── app.py                            # Streamlit dashboard
 ├── .github/workflows/
-│   └── nightly_retrain.yml           # automated MLOps pipeline
+│   ├── nightly_retrain.yml           # automated MLOps pipeline
+│   └── tests.yml                     # CI test runner
 ├── data/
 └── models/
 ```
 
 ## Limitations
 
-[#limitations](#limitations)
 
 Worth being upfront about, since these are exactly the things a real deployment would need to validate first:
 
