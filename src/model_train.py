@@ -164,7 +164,44 @@ class ModelTrainer:
             "per_sku": sku_results
         }
         return y_pred
-    
+    def evaluate_baseline(self, test_df):
+            """
+            Naive baseline: predict 'same as 7 days ago' for each SKU.
+            If XGBoost can't beat this, it's not earning its complexity.
+            """
+            def smape(y_true, y_pred):
+                y_true = np.array(y_true)
+                y_pred = np.array(y_pred)
+                denominator = (np.abs(y_true) + np.abs(y_pred)) / 2
+                mask = denominator != 0
+                result = np.zeros_like(y_true, dtype=float)
+                result[mask] = np.abs(y_true[mask] - y_pred[mask]) / denominator[mask]
+                return np.mean(result) * 100
+
+            baseline_pred = test_df["lag_7d"].fillna(0).values
+            y_true = test_df["units_sold"].values
+
+            baseline_mae   = mean_absolute_error(y_true, baseline_pred)
+            baseline_smape = smape(y_true, baseline_pred)
+
+            xgb_smape = self.results["global"]["smape"]
+            improvement = ((baseline_smape - xgb_smape) / baseline_smape) * 100
+
+            print("\n" + "="*55)
+            print("BASELINE COMPARISON (naive: same as 7 days ago)")
+            print("="*55)
+            print(f"{'Baseline MAE':<25} {baseline_mae:.2f} units")
+            print(f"{'Baseline SMAPE':<25} {baseline_smape:.2f}%")
+            print(f"{'XGBoost SMAPE':<25} {xgb_smape:.2f}%")
+            print(f"{'Improvement over baseline':<25} {improvement:.1f}%")
+
+            self.results["baseline"] = {
+                "mae": baseline_mae,
+                "smape": baseline_smape,
+                "improvement_pct": improvement
+            }
+            return self.results["baseline"]
+        
     def show_feature_importance(self, top_n=15):
         importance = pd.DataFrame({
             "feature":    self.feature_cols,
@@ -273,6 +310,8 @@ if __name__ == "__main__":
 
     # Evaluate
     trainer.evaluate(X_test, y_test, test_df)
+    # Baseline comparison
+    trainer.evaluate_baseline(test_df)
 
     # Feature importance
     trainer.show_feature_importance(top_n=15)
