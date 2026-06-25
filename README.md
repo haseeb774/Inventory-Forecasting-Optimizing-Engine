@@ -6,6 +6,7 @@
 [Live demo](https://inventory-forecasting-optimizing-engine-fz6hc6egappoqzivhceixg.streamlit.app/) · [Case study PDF](./NestHaven_Case_Study.pdf) · Built by Haseeb U Rehman
 
 ---
+https://github.com/user-attachments/assets/a4866760-29c3-4155-a247-459d39af2aca
 
 ## The problem
 
