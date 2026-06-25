@@ -26,6 +26,25 @@ A forecasting and alert system that watches every SKU continuously and tells the
 2. **Reorder logic** — classical supply-chain math (reorder point, safety stock via service-level z-score, economic order quantity) applied to the model's forecasts, producing a daily-refreshed status per SKU: **Critical**, **Warning**, **Healthy**, or **Overstock**.
 3. **MLOps automation** — a nightly GitHub Actions workflow that regenerates data, retrains the model, and recalculates every alert without manual intervention, committing results straight back to the live dashboard.
 
+## Architecture
+
+[#architecture](#architecture)
+
+```mermaid
+flowchart LR
+    A[Synthetic / Shopify<br/>order data] --> B[Data pipeline<br/>clean + aggregate]
+    B --> C[Feature engineering<br/>lags, rolling stats,<br/>holiday windows]
+    C --> D[XGBoost model<br/>train + evaluate]
+    D --> E[30-day forecast<br/>per SKU]
+    E --> F[Reorder engine<br/>ROP, safety stock, EOQ]
+    F --> G[Alert classification<br/>Critical/Warning/Healthy/Overstock]
+    G --> H[Streamlit dashboard]
+
+    I[GitHub Actions<br/>nightly cron] -.triggers retrain.-> B
+    I -.triggers retrain.-> D
+    I -.triggers retrain.-> F
+```
+
 ## The product
 
 A Streamlit dashboard an operations manager can use without any technical background:
@@ -35,8 +54,8 @@ A Streamlit dashboard an operations manager can use without any technical backgr
 - One-click manual override, so a planned promotion or known external factor can adjust the system's recommendation
 - Live "last retrained" timestamp, backed by a real automated pipeline — not a static number
 
-![Reorder alerts dashboard](./screenshots/dashboard_alerts.png)
-![SKU forecast detail](./screenshots/dashboard_forecast.png)
+![Reorder alerts dashboard](./screenshots/alerts.png)
+![SKU forecast detail](./screenshots/detail.png)
 
 ## The result
 
@@ -82,13 +101,24 @@ It's easy to claim a model "works" without showing what it's being compared agai
 │   ├── data_pipeline.py              # cleaning, aggregation, feature engineering
 │   ├── model_train.py                # XGBoost training, evaluation, forecasting
 │   └── forecasting_feature.py        # reorder point / safety stock / alert engine
-├── dashboard/
-│   └── app.py                        # Streamlit dashboard
+├── app.py   # Streamlit dashboard
 ├── .github/workflows/
 │   └── nightly_retrain.yml           # automated MLOps pipeline
 ├── data/
 └── models/
 ```
+
+## Limitations
+
+[#limitations](#limitations)
+
+Worth being upfront about, since these are exactly the things a real deployment would need to validate first:
+
+- **Synthetic data, not live transactions.** The seasonal patterns (Eid windows, month-end pay cycles) are engineered to be realistic, but they're authored assumptions, not observed behavior. A real Shopify connection would likely surface demand drivers (marketing pushes, competitor stockouts, weather) that aren't in this simulation at all.
+- **No exogenous signals.** The model forecasts from sales history alone — it doesn't see price changes, promotions, or marketing spend as inputs. A real deployment would need those wired in, since a promo can spike demand in a way no amount of historical lag features can predict.
+- **Cold-start SKUs are unsolved.** New products with little or no sales history would get poor forecasts from this model — it leans on lag and rolling-window features that don't exist yet for a brand-new item. A production version would need a separate cold-start strategy (category averages, manual overrides until enough history accumulates).
+- **EOQ assumes fixed cost inputs.** Order cost ($20) and holding cost (15% of price) are reasonable defaults, not values pulled from NestHaven's actual accounting — a real client would need to supply their true costs for the recommended order quantities to be trustworthy.
+- **SMAPE of ~30% is good relative to baseline, not perfect in absolute terms.** It's a meaningful improvement, but it's not a number you'd want to over-promise on a sales contract without first validating on a full real season of data.
 
 ## What this would look like for a real client
 
