@@ -57,6 +57,19 @@ A few decisions worth calling out, because they're the difference between a mode
 - **Time-based train/test split, never random.** A forecasting model must be validated the way it will actually be used — predicting forward from a point in time, never peeking at the future.
 - **No data leakage features.** Early iterations included `revenue` and `current_stock` as model inputs — both quietly leak the answer back into the prediction. Removing them dropped a misleadingly high accuracy number to an honest one, and fixed per-SKU forecasts that had been collapsing toward a meaningless average.
 
+## Model performance vs. baseline
+
+[#model-performance-vs-baseline](#model-performance-vs-baseline)
+
+It's easy to claim a model "works" without showing what it's being compared against. Here, the XGBoost model is benchmarked against the simplest reasonable baseline — predicting that demand on any given day equals demand exactly 7 days prior (captures weekly seasonality with zero modeling effort):
+
+| Model                            | MAE (units) | SMAPE  |
+|-----------------------------------|------------:|-------:|
+| Naive baseline (same as 7d ago)  | 6.87        | 49.19% |
+| XGBoost (this project)           | 3.44        | 29.76% |
+
+**The XGBoost model cuts forecast error by 39.5% relative to the naive baseline** — roughly half the mean absolute error (6.87 → 3.44 units) and a 19-point drop in SMAPE. This is the test that actually matters: a model that doesn't clearly beat "look at last week" isn't worth the added complexity, infrastructure, and retraining cost. This one does.
+
 ## Tech stack
 
 `Python` · `XGBoost` · `pandas` / `NumPy` · `Streamlit` · `Plotly` · `GitHub Actions` (scheduled retraining) · `Streamlit Community Cloud` (deployment)
