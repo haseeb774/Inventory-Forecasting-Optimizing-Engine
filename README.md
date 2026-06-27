@@ -3,7 +3,7 @@
 
 **Smart inventory & demand forecasting system for e-commerce — built to catch stockouts before they happen and free up cash trapped in slow-moving stock.**
 
-[Live demo](https://inventory-forecasting-optimizing-engine-fz6hc6egappoqzivhceixg.streamlit.app/) · [NestHaven_Case_Study.pdf](https://github.com/user-attachments/files/29355360/NestHaven_Case_Study.pdf) · Built by Haseeb U Rehman
+[Live demo](https://inventory-forecasting-optimizing-engine-fz6hc6egappoqzivhceixg.streamlit.app/) · [NestHaven_Case_Study (1).pdf](https://github.com/user-attachments/files/29406785/NestHaven_Case_Study.1.pdf) · Built by Haseeb U Rehman
 
 ---
 
