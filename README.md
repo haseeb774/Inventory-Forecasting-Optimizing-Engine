@@ -129,4 +129,4 @@ This project is built on realistic synthetic data engineered to match the season
 
 ---
 
-*Interested in a forecasting and inventory system for your own store? [Get in touch](mailto:haseeb@email.com).*
+*Interested in a forecasting and inventory system for your own store? [Get in touch](mailto:haseeb16001@gmail.com).*
